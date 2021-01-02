@@ -1,14 +1,24 @@
-def my_decorator(og_function):
-    def wrap_fn():
-        print('a bow')
-        og_function()
-        print('some tape')
-    return wrap_fn
+import requests
+import bs4
 
+result = requests.get('http://www.example.com')
 
-@my_decorator
-def say_hello():
-    print('hello!!!')
+print(type(result))  # <class 'requests.models.Response'>
+print(result.text)  # returns html document (page source) as string
 
+# pass into .BeautifulSoup() text and string code for what engine to use to parse through the string text
+soup = bs4.BeautifulSoup(result.text, "lxml")
+print(soup)  # raw string converted to soup OBJECT like the below
 
-say_hello()
+# <!DOCTYPE html>
+# <html>
+# <head>
+# ...
+
+# selecting for tag, returns a list
+print(soup.select('title'))
+# => [<title>Example Domain</title>]
+
+# getting just the text
+print(soup.select('title')[0].getText())
+# => Example Domain
