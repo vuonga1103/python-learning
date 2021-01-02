@@ -1,24 +1,24 @@
 import requests
 import bs4
 
-result = requests.get('http://www.example.com')
+res = requests.get('https://en.wikipedia.org/wiki/Deep_Blue_(chess_computer)')
+soup = bs4.BeautifulSoup(res.text, 'lxml')
 
-print(type(result))  # <class 'requests.models.Response'>
-print(result.text)  # returns html document (page source) as string
+print(soup.select('.thumbimage'))
+# prints all images with class thumbimage
 
-# pass into .BeautifulSoup() text and string code for what engine to use to parse through the string text
-soup = bs4.BeautifulSoup(result.text, "lxml")
-print(soup)  # raw string converted to soup OBJECT like the below
+computer = soup.select('.thumbimage')[0]
+print(computer)
+# <img alt="" class="thumbimage" data-file-height="600" data-file-width="800" decoding="async" height="165" src="//upload....
 
-# <!DOCTYPE html>
-# <html>
-# <head>
-# ...
+# making request for the image
+image_link = requests.get('https:' + computer['src'])
+image_link.content  # binary file for image that can be saved to computer
 
-# selecting for tag, returns a list
-print(soup.select('title'))
-# => [<title>Example Domain</title>]
+# pass into open() file name you want to call the image, mode: wb (write binary)
+f = open('my_computer_image.jpg', 'wb')
+# write to the file
+f.write(image_link.content)
+f.close()
 
-# getting just the text
-print(soup.select('title')[0].getText())
-# => Example Domain
+# the above saves the image to current working directory. but to save it somewhere else you can specify the full path, ex. C://Users...
