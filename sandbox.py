@@ -1,34 +1,16 @@
-class Dog():
-    def __init__(self, name):
-        self.name = name
+try:
+    # opens a file to write, if that file doesn't exist, create it
+    f = open('testfile', 'r')
+    f.write('Write a test line')
+# Can specify in except specific error you want to accept for
+except TypeError:
+    print('There was a type error')
+except OSError:
+    # Error that occurs when you open and writing to files you don't have permission to
+    print('Hey you have an OS error')
+finally:
+    print('I always run')
 
-    def speak(self):
-        return self.name + ' says woof!'
-
-
-class Cat():
-    def __init__(self, name):
-        self.name = name
-
-    def speak(self):
-        return self.name + ' says meow!'
-
-
-niko = Dog(name='niko')
-felix = Cat(name='felix')
-
-for pet in [niko, felix]:
-    print(type(pet))
-    print(pet.speak())
-
-# <class '__main__.Dog'>
-# niko says woof!
-# <class '__main__.Cat'>
-# felix says meow!
-
-
-def pet_speak(pet):
-    print(pet.speak())
-
-
-pet_speak(niko)  # niko says woof!
+# (base) anhvuong@Anhs-Air python-learning % python3 sandbox.py
+# Hey you have an OS error
+# I always run
